@@ -1,0 +1,17 @@
+{
+  "name": "keystone-express-sitemap",
+  "version": "1.0.1",
+  "description": "Dynamic sitemap generation for applications built on KeystoneJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stephanie Plumeri",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.9.0",
+    "date-format-lite": "^0.7.1",
+    "express-sitemap": "^1.5.4",
+    "underscore": "^1.8.3"
+  }
+}
