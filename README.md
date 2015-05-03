@@ -44,7 +44,7 @@ Note that the keystone admin application routes (/keystone/*) will not be part o
 
 1. Install the package and save it with the rest of your site dependencies
 	```
-	npm install keystone-sitemap --save
+	npm install keystone-express-sitemap --save
 	```
 
 2. Add the sitemap.xml route to the rest of your site routes
