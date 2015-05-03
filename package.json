@@ -1,6 +1,6 @@
 {
   "name": "keystone-express-sitemap",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Dynamic sitemap generation for applications built on KeystoneJS",
   "main": "index.js",
   "scripts": {

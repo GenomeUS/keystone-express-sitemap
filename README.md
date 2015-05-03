@@ -52,7 +52,7 @@ Note that the keystone admin application routes (/keystone/*) will not be part o
 	**routes/index.js**
 	```
 	var keystone = require('keystone'),
-		sitemap = require('../keystone-sitemap');
+		sitemap = require('keystone-express-sitemap');
 
 		// other middleware/dependencies go here
 
