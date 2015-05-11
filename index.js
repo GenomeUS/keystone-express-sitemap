@@ -19,7 +19,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 	 */
 	var findKeystoneList = function(string) {
 		//remove dynamic parameter marker from string
-		string = string.replace(':', '');
+		string = string.replace(':', '').toLowerCase();
 
 		var lists = Object.keys(keystone.lists).map(function(l) {
 			return l.toLowerCase();
@@ -106,14 +106,22 @@ var KeystoneSitemap = function(keystone, req, res) {
 			list.model.find().exec(function(err, results) {
 				if (results && results.length > 0) {
 					results.forEach(function(v,i) {
-						//only define lastModDate if the model has a property tracking when it was last updated
-						var lastModDate = v.updatedAt ? v.updatedAt.format(dateFormatString) : null;
-						//define page url that will get user access to list item v
-						var pageUrl = paths.join('/').replace(dynamicParam, v[idParam]);
-						map[pageUrl] = ['get'];
-						route[pageUrl] = {
-							lastmod: lastModDate
-						};
+						var include = true;
+
+						if (options && options.filters && options.filters[list.key]) {
+							include = options.filters[list.key](v);
+						}
+
+						if (include) {
+							//only define lastModDate if the model has a property tracking when it was last updated
+							var lastModDate = v.updatedAt ? v.updatedAt.format(dateFormatString) : null;
+							//define page url that will get user access to list item v
+							var pageUrl = paths.join('/').replace(dynamicParam, v[idParam]);
+							map[pageUrl] = ['get'];
+							route[pageUrl] = {
+								lastmod: lastModDate
+							};
+						}
 					});
 				}
 				callback();
@@ -155,11 +163,12 @@ var KeystoneSitemap = function(keystone, req, res) {
 	 * @param rq {object}		express request object from sitemap.xml route handler function
 	 * @param rs {object}		express response object from sitemap.xml route handler function
 	 */
-	var create = function(ks, rq, rs) {
+	var create = function(ks, rq, rs, opt) {
 		// set variables to be used by all other KeystoneSitemap functions
 		keystone = ks;
 		req = rq;
 		res = rs;
+		options = opt;
 
 		parseRoutes();
 	};

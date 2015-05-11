@@ -67,7 +67,30 @@ Note that the keystone admin application routes (/keystone/*) will not be part o
 
 3. Go to sitemap.xml on your domain and watch the SEO magic fairy dust sprinkle itself magically over your site.
 
-### Usage notes
+## Additional options
+The sitemap create function accepts an optional options object parameter, which can be used to include additional information about your route structure.
+
+### Hidden page filter
+Some Keystone models may include a boolean to show/hide or publish/unpublish a specific piece of content tied to a model. You can use the `filters` option to declare the model name and the filter condition that should be applied to the routes that use that model to exclude any pages that are not shown/published from the sitemap file.
+
+The `filters` object may have a parameter for each model in your application. If no parameter is declared for a model name, then the sitemap assumes that all records in the collection for that model should be included in the sitemap.
+
+If the custom route filtering parameter is declared, then it must specify the function that should be used for filtering records of that route's model. The function should accept the model object as a parameter, and should evaluate to `true` for pages that should be included in the sitemap.
+
+```
+app.get('/sitemap.xml', function(req, res) {
+	sitemap.create(keystone, req, res, {
+		filters: {
+			'Recipe': function(recipe) {
+				return recipe.hide !== true;
+			}
+		}
+	});
+});
+```
+
+
+## Usage notes
 * The sitemap generator works with dynamic routes declared in 2 formats:
 
 	`/[list name]/:[dynamic parameter]`
