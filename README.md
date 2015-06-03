@@ -70,6 +70,27 @@ Note that the keystone admin application routes (/keystone/*) will not be part o
 ## Additional options
 The sitemap create function accepts an optional options object parameter, which can be used to include additional information about your route structure.
 
+### Hide route
+To ignore a route completely from the sitemap, declare the route string in the `ignore` array in the same way as you declared the route string within your site routes.
+
+```
+app.get('/sitemap.xml', function(req, res) {
+	sitemap.create(keystone, req, res, {
+		ignore: ['/secret/:id']
+	});
+});
+```
+
+If you want to ignore multiple routes with a common pattern, you can pass the regular expression that matches that pattern.
+
+```
+app.get('/sitemap.xml', function(req, res) {
+	sitemap.create(keystone, req, res, {
+		ignore: ['^\/api.*$']
+	});
+});
+```
+
 ### Hidden page filter
 Some Keystone models may include a boolean to show/hide or publish/unpublish a specific piece of content tied to a model. You can use the `filters` option to declare the model name and the filter condition that should be applied to the routes that use that model to exclude any pages that are not shown/published from the sitemap file.
 

@@ -53,6 +53,22 @@ var KeystoneSitemap = function(keystone, req, res) {
 
 				// remove any kestyone admin paths (/keystone/)
 				if (path != null && path.match(/keystone\*{0,1}$|keystone\/|\/\*$|sitemap\.xml/) == null) {
+					var ignored = false;
+
+					//check routes against the ignored routes, if applicable
+					if (options && options.ignore && Object.prototype.toString.call(options.ignore) === '[object Array]') {
+						for (var ig in options.ignore) {
+							if (path === options.ignore[ig] || path.match(options.ignore[ig]) !== null) {
+								ignored = true;
+								break;
+							}
+						};
+					}
+
+					if (ignored) {
+						return false;
+					}
+
 					// check for dynamic routes (with parameters identified by :[parameter name])
 					if (path.indexOf(':') > 0) {
 						dynamicRoutes.push(path);
