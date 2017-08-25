@@ -110,6 +110,21 @@ app.get('/sitemap.xml', function(req, res) {
 });
 ```
 
+### Custom list field as a URL
+You can provide a custom key for sitemap generator to retreive a value from. In the next example a custom field named `slug` will be used instead of default fallback:
+
+```
+app.get('/sitemap.xml', function(req, res) {
+	sitemap.create(keystone, req, res, {
+		customId: {
+			'Page': 'slug'
+		}
+	});
+});
+```
+
+This option may allow you to define custom fields for routes, that look like this one — `/:page`.
+
 
 ## Usage notes
 * The sitemap generator works with dynamic routes declared in 2 formats:
