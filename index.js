@@ -6,7 +6,7 @@ var sitemap = require('express-sitemap'),
 
 var KeystoneSitemap = function(keystone, req, res) {
 	// store routes for express-sitemap function method map option
-	var map = {};
+	var map = {}, options;
 	// store routes for express-sitemap function route declaration option
 	var route = {};
 	var dynamicRoutes = [];
@@ -65,10 +65,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 						};
 					}
 
-					if (ignored) {
-						return false;
-					}
-
+					if (!ignored) {
 					// check for dynamic routes (with parameters identified by :[parameter name])
 					if (path.indexOf(':') > 0) {
 						dynamicRoutes.push(path);
@@ -77,6 +74,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 					else {
 						map[path] = ['get'];
 						route[path] = {};
+						}
 					}
 				}
 			});
@@ -162,14 +160,10 @@ var KeystoneSitemap = function(keystone, req, res) {
 	 * Send back the XML sitemap once all routes have been parsed
 	 */
 	var createXmlFile = function() {
-		//express 3.x.x does not define req.hostname, only req.host
-		//express 4.x.x has separate parameters for hostname and protocol
-		var host = req.hostname ? req.hostname : req.host;
 		sitemap({
-		    map: map,
-		    route: route,
-		    url: host,
-		    http: req.protocol
+		    map, route,
+		    url: req.hostname,
+		    http: req.get('x-forwarded-proto') || req.protocol
 		}).XMLtoWeb(res);
 	};
 
@@ -189,9 +183,7 @@ var KeystoneSitemap = function(keystone, req, res) {
 		parseRoutes();
 	};
 
-	return {
-		create: create
-	}
+  return {create};
 };
 
 module.exports = KeystoneSitemap();
