@@ -11,7 +11,7 @@
   "dependencies": {
     "async": "^0.9.0",
     "date-format-lite": "^0.7.1",
-    "express-sitemap": "^1.5.4",
+    "express-sitemap": "https://github.com/hex7c0/express-sitemap.git",
     "underscore": "^1.8.3"
   },
   "repository" : {
