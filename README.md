@@ -110,6 +110,16 @@ app.get('/sitemap.xml', function(req, res) {
 });
 ```
 
+### Forcing HTTPS
+To force https simple set the `protocol` in the config.
+
+```
+app.get('/sitemap.xml', function(req, res) {
+	sitemap.create(keystone, req, res, {
+		protocol: "https"
+	});
+});
+```
 
 ## Usage notes
 * The sitemap generator works with dynamic routes declared in 2 formats:
